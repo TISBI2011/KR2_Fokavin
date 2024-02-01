@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KR2_FokavinModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="KR2_FokavinEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clients" EntityType="KR2_FokavinModel.Clients" />
+    <EntitySet Name="Order" EntityType="KR2_FokavinModel.Order" />
+    <EntitySet Name="OrderProduct" EntityType="KR2_FokavinModel.OrderProduct" />
+    <EntitySet Name="Otdel" EntityType="KR2_FokavinModel.Otdel" />
+    <EntitySet Name="Post" EntityType="KR2_FokavinModel.Post" />
+    <EntitySet Name="Product" EntityType="KR2_FokavinModel.Product" />
+    <EntitySet Name="Sotrudniki" EntityType="KR2_FokavinModel.Sotrudniki" />
+    <EntitySet Name="sysdiagrams" EntityType="KR2_FokavinModel.sysdiagrams" />
+    <AssociationSet Name="FK_Order_Clients" Association="KR2_FokavinModel.FK_Order_Clients">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Sotrudniki" Association="KR2_FokavinModel.FK_Order_Sotrudniki">
+      <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_Order" Association="KR2_FokavinModel.FK_OrderProduct_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderProduct" EntitySet="OrderProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProduct_Product" Association="KR2_FokavinModel.FK_OrderProduct_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderProduct" EntitySet="OrderProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sotrudniki_Otdel1" Association="KR2_FokavinModel.FK_Sotrudniki_Otdel1">
+      <End Role="Otdel" EntitySet="Otdel" />
+      <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sotrudniki_Post" Association="KR2_FokavinModel.FK_Sotrudniki_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Clientid" />
+    </Key>
+    <Property Name="Clientid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="Double" />
+    <NavigationProperty Name="Order" Relationship="KR2_FokavinModel.FK_Order_Clients" FromRole="Clients" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="idOrder" />
+    </Key>
+    <Property Name="idOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Clientid" Type="Int32" Nullable="false" />
+    <Property Name="Sotrudnikid" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="TrebovaniePoPlatforme" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Clients" Relationship="KR2_FokavinModel.FK_Order_Clients" FromRole="Order" ToRole="Clients" />
+    <NavigationProperty Name="Sotrudniki" Relationship="KR2_FokavinModel.FK_Order_Sotrudniki" FromRole="Order" ToRole="Sotrudniki" />
+    <NavigationProperty Name="OrderProduct" Relationship="KR2_FokavinModel.FK_OrderProduct_Order" FromRole="Order" ToRole="OrderProduct" />
+  </EntityType>
+  <EntityType Name="OrderProduct">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Orderid" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="KR2_FokavinModel.FK_OrderProduct_Order" FromRole="OrderProduct" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="KR2_FokavinModel.FK_OrderProduct_Product" FromRole="OrderProduct" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Otdel">
+    <Key>
+      <PropertyRef Name="Otdelid" />
+    </Key>
+    <Property Name="Otdelid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Sotrudniki" Relationship="KR2_FokavinModel.FK_Sotrudniki_Otdel1" FromRole="Otdel" ToRole="Sotrudniki" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="Postid" />
+    </Key>
+    <Property Name="Postid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Sotrudniki" Relationship="KR2_FokavinModel.FK_Sotrudniki_Post" FromRole="Post" ToRole="Sotrudniki" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Productid" />
+    </Key>
+    <Property Name="Productid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OrderProduct" Relationship="KR2_FokavinModel.FK_OrderProduct_Product" FromRole="Product" ToRole="OrderProduct" />
+  </EntityType>
+  <EntityType Name="Sotrudniki">
+    <Key>
+      <PropertyRef Name="SotrudnikId" />
+    </Key>
+    <Property Name="SotrudnikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="Double" />
+    <Property Name="Passport" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Postid" Type="Int32" Nullable="false" />
+    <Property Name="Otdelid" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Order" Relationship="KR2_FokavinModel.FK_Order_Sotrudniki" FromRole="Sotrudniki" ToRole="Order" />
+    <NavigationProperty Name="Otdel" Relationship="KR2_FokavinModel.FK_Sotrudniki_Otdel1" FromRole="Sotrudniki" ToRole="Otdel" />
+    <NavigationProperty Name="Post" Relationship="KR2_FokavinModel.FK_Sotrudniki_Post" FromRole="Sotrudniki" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Order_Clients">
+    <End Type="KR2_FokavinModel.Clients" Role="Clients" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="Clientid" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Clientid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Sotrudniki">
+    <End Type="KR2_FokavinModel.Sotrudniki" Role="Sotrudniki" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sotrudniki">
+        <PropertyRef Name="SotrudnikId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Sotrudnikid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_Order">
+    <End Type="KR2_FokavinModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="idOrder" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="Orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProduct_Product">
+    <End Type="KR2_FokavinModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Productid" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sotrudniki_Otdel1">
+    <End Type="KR2_FokavinModel.Otdel" Role="Otdel" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.Sotrudniki" Role="Sotrudniki" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Otdel">
+        <PropertyRef Name="Otdelid" />
+      </Principal>
+      <Dependent Role="Sotrudniki">
+        <PropertyRef Name="Otdelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sotrudniki_Post">
+    <End Type="KR2_FokavinModel.Post" Role="Post" Multiplicity="1" />
+    <End Type="KR2_FokavinModel.Sotrudniki" Role="Sotrudniki" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="Postid" />
+      </Principal>
+      <Dependent Role="Sotrudniki">
+        <PropertyRef Name="Postid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
